@@ -2,6 +2,7 @@
 <html lang="is">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Skráning á sýningu á Listasafninu</title>
     <meta
       name="description"
@@ -36,9 +37,7 @@
         <fieldset>
           <legend>Sýning</legend>
           <div>
-            <label for="hvers_vegna"
-              >Hvaða sýningu viljið þið skrá ykkur á?</label
-            >
+            <label for="syning">Hvaða sýningu viljið þið skrá ykkur á?</label>
             <select id="syning" name="syning">
               <optgroup label="Núverandi sýningar">
                 <option>x</option>
@@ -49,7 +48,7 @@
             </select>
           </div>
           <div>
-            <label for="syning_allar"></label>
+            <label for="syning_allar">
               <input
                 type="checkbox"
                 id="syning_allar"
@@ -105,12 +104,7 @@
           <legend>Dagsetning og tími</legend>
           <div>
             <label for="date_day">Hvenær viljið þið koma?</label>
-            <input
-              type="date"
-              id="date_day"
-              name="date_day"
-              required
-            />
+            <input type="date" id="date_day" name="date_day" required />
           </div>
           <div>
             <label for="date_time">Klukkan hvað?</label>
@@ -134,7 +128,11 @@
           </div>
           <div>
             <label for="date_length">Hve lengi?</label>
-            <select id="date_length" name="date_length" aria-details="date_length_details">
+            <select
+              id="date_length"
+              name="date_length"
+              aria-details="date_length_details"
+            >
               <option value="60">1 klukkustund</option>
               <option value="90">1,5 klukkustund</option>
               <option value="120">2 klukkustundir</option>
@@ -145,14 +143,16 @@
               <option value="300">5 klukkustundir</option>
             </select>
             <span id="date_length_details"
-              >Mælt er með að taka tvær klukkustundir eða lengur fyrir sýningar í sal 1</span
+              >Mælt er með að taka tvær klukkustundir eða lengur fyrir sýningar
+              í sal 1</span
+            >
           </div>
         </fieldset>
         <fieldset>
           <legend>Bóka</legend>
           <div>
             <label>
-              <input type="checkbox" name="terms">
+              <input type="checkbox" name="terms" />
               Samþykki <a href="./um.html" target="_blank">skilmála</a>
             </label>
           </div>
