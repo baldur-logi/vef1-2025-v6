@@ -1,14 +1,10 @@
-/* Setjum inn „reset“ sem fjarlægir margin og padding af öllu */
 * {
   margin: 0;
   padding: 0;
 }
-
-/* Reiknum stærð á öllum boxum sem border-box */
 html {
   box-sizing: border-box;
 }
-/* og látum erfast á allt */
 *,
 *:before,
 *:after {
@@ -26,17 +22,44 @@ html {
   width: 1px;
 }
 
-/** Letur og stærðir **/
+/** Stillingar **/
 
-/**
- * Grunnstærð er 16px svo 1rem = 16 px.
- * Notum í framhaldi heil og hálf margfeldi af þessu, t.d. 1.5rem til að fá „eitt og hálft bilt“
- */
-html {
-  font-size: 16px;
+:root {
+  --font-size-base: 16px;
+  --font-size-headings: 1.5rem;
+
+  /* Grunn bilið okkar er 1rem == 16px */
+  --spacing: 1rem;
+
+  /* Hámarks og lágmarks breidd á efni */
+  --max-width: 1100px;
+
+  /* Hæð á nav */
+  --height-nav: 4rem;
+
+  /* Border breiddir */
+  --border-nav: 2px solid var(--color-background-secondary);
+  --border-radius-regular: 5px;
+
+  /* Litir */
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #000000;
+  --color-accent: #ff9999;
+  --color-background-form: var(--color-white);
+  --color-border-with-background: var(--color-purple-dark);
+
+  /* Letur stillingar */
+  --font-base-size: 1rem;
+  --font-family-base: "Gelasio", "Georgia", serif;
+  --font-family-heading: "Atkinson Hyperlegible", "Courier New", monospace;
 }
 
-/* Leturgerðir sem við sækjum úr fonts/ möppu */
+/** Letur og stærðir **/
+
+html {
+  font-size: var(--font-size-base);
+}
+
 @font-face {
   font-family: "Atkinson Hyperlegible";
   font-style: normal;
@@ -58,20 +81,18 @@ html {
   src: url("./fonts/Gelasio-VariableFont_wght.ttf") format("woff2");
 }
 
-/*** Allt meginmál notar Gelasio ***/
 html,
 input,
 select,
 button {
-  font-family: "Gelasio", "Georgia", serif;
+  font-family: var(--font-family-base);
 }
 
-/*** Allar fyrirsagnir nota Atkinson Hyperlegible regular ***/
 h1,
 h2,
 h3,
 legend {
-  font-family: "Atkinson Hyperlegible", "Courier New", Courier, monospace;
+  font-family: var(--font-family-heading);
 }
 
 /** Lætur myndir aldrei taka meira pláss en foreldri skilgreinir **/
@@ -91,6 +112,20 @@ select {
   font-size: inherit;
 }
 
+/** Almennt takka útlit, getur virkað á bæði <a> og <button> **/
+.button {
+  display: inline-block;
+  padding: calc(var(--spacing) * 0.5) var(--spacing);
+  border: var(--border-regular);
+  border-radius: var(--border-radius-regular);
+  border-width: var(--border-width);
+
+  color: var(--color-background-primary);
+  background-color: var(--color-background-secondary);
+  font-size: 1rem;
+  text-decoration: none;
+}
+
 /**
  * Eftirfarandi setur upp grunn umbrot (layout) síðu með flexbox.
  * Við förum yfir flexbox í viku 4 + verkefni 4 en þangað til er hægt að nota þetta
@@ -105,64 +140,53 @@ select {
   /* pláss fyrir nav, það er nákvæmlega svona hátt */
   margin-top: 4rem;
   width: 100%;
-
-  /* Án þessa getum við lent í að síður með minna af efni séu ekki með bil fyrir neðan fót */
   min-height: 100vh;
 
-  background-color: #ffffff;
+  background-color: var(--color-background-primary);
 }
 
-/* Allt auka pláss fer í main, ekki haus eða fót */
 .wrapper main {
   flex: 1;
 }
 
-/**
- * Nav er fast efst og fylgir þegar við skrollum síðu.
- */
 nav {
-  /* Festum efst */
   position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
 
-  /** 
-   * Skilgreinum sérstaklega hæð og að þetta taki alltaf alla breidd
-   * padding til að lofta aðeins um.
-   * Prófið að eiga við / taka út til að sjá áhrif.
-   */
-  padding: 1rem 0;
-  width: 100%;
+  width: 100vw;
+  height: var(--height-nav);
+  overflow: hidden;
 
-  /* nákvæm hæð, verður að passa við margin-top í .wrapper */
-  height: 4rem;
-
-  background-color: #ffffff;
-  border-bottom: 2px solid #000;
+  background-color: var(--color-background-primary);
+  border-bottom: var(--border-nav);
 }
 
 nav ul {
+  display: flex;
+
+  width: 100%;
+  padding: var(--spacing);
+
+  overflow: auto;
+
+  gap: calc(var(--spacing) * 2);
+  justify-content: center;
+
   list-style: none;
-  text-align: center;
 }
 
 nav ul li {
-  display: inline-block;
-  margin: 0 1rem;
-
-  /* Aðeins stærra letur */
-  font-size: 1.5rem;
-  /* Leturgerð er sú sama og á fyrirsögnum, setjum sérstaklega hér. */
-  font-family: "Atkinson Hyperlegible", "Courier New", Courier, monospace;
+  white-space: nowrap;
+  font-size: var(--font-size-headings);
+  font-family: var(--font-family-heading);
 }
 
-/* Viljum ekki hafa undirlínur á hlekkjum. */
 nav a {
   text-decoration: none;
 }
 
-/* nema þegar við förum yfir með bendli eða veljum með tab á lyklaborði */
 nav a:hover,
 nav a:focus {
   text-decoration: underline;
@@ -176,34 +200,35 @@ nav strong {
 /** Haus á síðum **/
 
 header {
-  padding: 1em 1.5em;
+  padding: var(--spacing) calc(var(--spacing) * 1.5);
   text-align: center;
 }
 
 header h1 {
-  font-size: 3rem;
+  font-size: calc(var(--font-size-headings) * 2);
   text-transform: uppercase;
 }
 
 /** Meginmál og efni forsíðu **/
 
 main {
-  margin: 0 auto 2em auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  margin: 0 auto calc(var(--spacing) * 2) auto;
+  padding-left: var(--spacing);
+  padding-right: var(--spacing);
   width: 100%;
-  max-width: 900px;
+  max-width: var(--max-width);
 }
 
 /** Forsíða inngangsmynd **/
 
 .intro {
+  display: flex;
   position: relative;
 
-  margin-bottom: 2rem;
-  min-height: calc(100vh - 4rem);
+  margin-bottom: calc(var(--spacing) * 2);
+  min-height: calc(100vh - var(--height-nav));
 
-  color: #ffffff;
+  color: var(--color-background-primary);
 
   background-position: 50% 50%;
   background-attachment: fixed;
@@ -227,18 +252,20 @@ main {
   position: relative;
   z-index: 2;
 
-  /**
-   * Hér er eitthvað kjánalegt í gangi með að láta efnið vera miðjað lóðrétt.
-   * Í verkefni 4 gerum við þetta rétt með því að nota flexbox.
-   */
-  margin-top: 20rem;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
 
   font-size: 2em;
 }
 
+.intro .content h1 {
+  margin-top: calc(var(--spacing) * -4);
+}
+
 .intro .content h1,
 .intro .content h2 {
-  margin-bottom: 4rem;
+  margin-bottom: calc(var(--spacing) * 4);
 }
 
 /**
@@ -246,78 +273,112 @@ main {
  * Líta hræðilega út og erfitt að stýra með float! Lögum í verkefni 4 með því að nota flexbox.
  */
 
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--spacing) * 2);
+}
+
 .card {
-  margin-bottom: 4rem;
+  display: flex;
+  gap: var(--spacing);
   width: 100%;
 }
 
-.card .kicker {
+.card .card__header {
+  width: 100%;
+}
+
+.card .card__content {
+  flex: 1;
+
+  display: flex;
+  gap: var(--spacing);
+  flex-direction: column;
+}
+
+.card .card__text {
+  flex: 1;
+}
+
+.card .card__image {
+  flex-basis: 40%;
+  width: 100%;
+}
+
+.card .card__kicker {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
 }
 
-.card h2 {
+.card .card__title {
   margin-bottom: 1rem;
   font-size: 2rem;
 }
 
-.card img {
-  float: right;
-  margin: 0 0 1rem 1rem;
-  max-height: 300px;
-  width: auto;
+.card .card__image img {
+  display: block;
+
+  border-top-left-radius: var(--border-radius-regular);
+  border-top-right-radius: var(--border-radius-regular);
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: 50% 50%;
 }
 
-.card .link {
-  clear: both;
-}
-
-.card:nth-child(odd) img {
-  float: left;
-  margin: 0 1rem 1rem 0;
+.card:nth-child(2n) .card__image {
+  order: -1;
 }
 
 /** Efnissíða **/
 
 .content section {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing);
 }
 
 /** Töflur **/
 
 table {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing);
   border-spacing: 0;
   width: 100%;
 }
 
 table th,
 table td {
-  padding: 0.5rem;
+  padding: calc(var(--spacing) / 2);
   text-align: left;
 }
 
 table tbody tr:nth-child(2n + 1) {
-  background-color: #ff9999;
+  background-color: var(--color-accent);
 }
 
 /** Form **/
 
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing);
+
+  width: 100%;
+}
+
 fieldset {
-  margin-bottom: 1rem;
+  width: calc(50% - (var(--spacing) / 2));
   border: 0;
 }
 
 fieldset legend {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing);
   font-size: 1.5rem;
 }
 
 fieldset div {
   width: 100%;
-  max-width: 450px;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing);
 }
 
 fieldset div label {
@@ -326,13 +387,13 @@ fieldset div label {
 
 fieldset div span {
   display: block;
-  margin-top: 0.5rem;
+  margin-top: calc(var(--spacing) / 2);
 }
 
 fieldset input,
 fieldset select,
 fieldset textarea {
-  padding: 0.5rem;
+  padding: calc(var(--spacing) / 2);
   width: 100%;
   border: 1px solid #000000;
 
@@ -341,37 +402,26 @@ fieldset textarea {
 
 fieldset input[type="checkbox"] {
   display: inline-block;
-  margin-right: 0.5rem;
+  margin-right: calc(var(--spacing) / 2);
   width: auto;
 }
 
-form button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-width: 1px;
-  background-color: #ff9999;
+.submit {
+  width: 100%;
 }
 
 /** Fótur **/
 
 footer {
-  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--spacing) * 2);
+  justify-content: center;
+
+  padding: var(--spacing);
 
   background-color: #ff9999;
   text-align: center;
-}
-
-.footer-section {
-  display: inline-block;
-
-  /* Lætur efni jafnast lóðrétt við topp */
-  vertical-align: top;
-
-  margin-right: 2em;
-}
-
-.footer-section:last-child {
-  margin-right: 0;
 }
 
 footer ul {
@@ -379,10 +429,7 @@ footer ul {
 }
 
 footer ul,
-footer section {
-  margin-bottom: 1rem;
-}
-
+footer section,
 footer h2 {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing);
 }
