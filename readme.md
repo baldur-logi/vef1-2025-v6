@@ -1,3 +1,3 @@
-# Vefforritun 1, 2025: Verkefni 4, CSS #2 sýnilausn
+# Vefforritun 1, 2025: Verkefni 5, CSS #3 sýnilausn
 
-Sýnilausn á [verkefni 4](https://github.com/vefforritun/vef1-2025-v4).
+Sýnilausn á [verkefni 5](https://github.com/vefforritun/vef1-2025-v5).

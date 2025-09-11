@@ -37,6 +37,20 @@ html {
   /* Hæð á nav */
   --height-nav: 4rem;
 
+  /* Grind */
+  --columns: 12;
+  --gutter: 30px;
+  --offset: 20px;
+
+  /* Breidd á efni með offset */
+  --width-offset: calc(100% - (2 * var(--offset)));
+
+  /* Bil á milli „stærri“ eininga (header, efnisbox, footer) */
+  --vertical-space-small: calc(var(--gutter) * 1);
+  --vertical-space-large: calc(var(--gutter) * 1.5);
+
+  --vertical-space: var(--vertical-space-small);
+
   /* Border breiddir */
   --border-nav: 2px solid var(--color-background-secondary);
   --border-radius-regular: 5px;
@@ -45,8 +59,7 @@ html {
   --color-background-primary: #ffffff;
   --color-background-secondary: #000000;
   --color-accent: #ff9999;
-  --color-background-form: var(--color-white);
-  --color-border-with-background: var(--color-purple-dark);
+  --color-protection: rgba(0, 0, 0, 0.35);
 
   /* Letur stillingar */
   --font-base-size: 1rem;
@@ -54,10 +67,26 @@ html {
   --font-family-heading: "Atkinson Hyperlegible", "Courier New", monospace;
 }
 
+@media (min-width: 700px) {
+  :root {
+    --vertical-space: var(--vertical-space-large);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-primary: #000000;
+    --color-background-secondary: #ffffff;
+    --color-accent: #660000;
+    --color-protection: rgba(255, 255, 255, 0.5);
+  }
+}
+
 /** Letur og stærðir **/
 
 html {
   font-size: var(--font-size-base);
+  color: var(--color-background-secondary);
 }
 
 @font-face {
@@ -116,9 +145,8 @@ select {
 .button {
   display: inline-block;
   padding: calc(var(--spacing) * 0.5) var(--spacing);
-  border: var(--border-regular);
+  border: 0;
   border-radius: var(--border-radius-regular);
-  border-width: var(--border-width);
 
   color: var(--color-background-primary);
   background-color: var(--color-background-secondary);
@@ -134,11 +162,16 @@ select {
  * innan <body> sem á að fylgja þessu (<nav> ætti að vera undanskilið).
  */
 .wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 100%;
+  gap: var(--vertical-space);
+
+  /* grid items eru miðjuð */
+  justify-items: center;
 
   /* pláss fyrir nav, það er nákvæmlega svona hátt */
-  margin-top: 4rem;
+  margin-top: var(--height-nav);
   width: 100%;
   min-height: 100vh;
 
@@ -165,21 +198,21 @@ nav {
 
 nav ul {
   display: flex;
-
-  width: 100%;
-  padding: var(--spacing);
-
-  overflow: auto;
-
   gap: calc(var(--spacing) * 2);
   justify-content: center;
+  align-items: center;
 
+  width: 100%;
+  height: 100%;
+  padding: var(--spacing);
+
+  overflow: hidden;
   list-style: none;
 }
 
 nav ul li {
   white-space: nowrap;
-  font-size: var(--font-size-headings);
+
   font-family: var(--font-family-heading);
 }
 
@@ -197,10 +230,30 @@ nav strong {
   text-decoration: underline;
 }
 
+nav .hide-in-mobile {
+  display: none;
+}
+
+@media (min-width: 500px) {
+  nav ul li {
+    font-size: var(--font-size-headings);
+  }
+}
+
+@media (min-width: 900px) {
+  nav ul li {
+    font-size: var(--font-size-headings);
+  }
+
+  nav .hide-in-mobile {
+    display: inline;
+  }
+}
+
 /** Haus á síðum **/
 
 header {
-  padding: var(--spacing) calc(var(--spacing) * 1.5);
+  margin-top: var(--vertical-space);
   text-align: center;
 }
 
@@ -212,11 +265,22 @@ header h1 {
 /** Meginmál og efni forsíðu **/
 
 main {
-  margin: 0 auto calc(var(--spacing) * 2) auto;
-  padding-left: var(--spacing);
-  padding-right: var(--spacing);
-  width: 100%;
+  /* Notum grid hér til að setja upp bil á milli header, meginmáls og fóts */
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 100%;
+
+  /* grid items eru miðjuð */
+  justify-items: center;
+
+  gap: var(--spacing);
+
+  width: var(--width-offset);
   max-width: var(--max-width);
+}
+
+main > section {
+  width: 100%;
 }
 
 /** Forsíða inngangsmynd **/
@@ -225,7 +289,8 @@ main {
   display: flex;
   position: relative;
 
-  margin-bottom: calc(var(--spacing) * 2);
+  margin-top: 0;
+  width: 100%;
   min-height: calc(100vh - var(--height-nav));
 
   color: var(--color-background-primary);
@@ -245,7 +310,7 @@ main {
   left: 0;
   z-index: 1;
 
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: var(--color-protection);
 }
 
 .intro .content {
@@ -274,13 +339,16 @@ main {
  */
 
 .cards {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-rows: auto;
   gap: calc(var(--spacing) * 2);
+  justify-items: center;
+
+  width: 100%;
 }
 
 .card {
-  display: flex;
+  display: grid;
   gap: var(--spacing);
   width: 100%;
 }
@@ -302,7 +370,8 @@ main {
 }
 
 .card .card__image {
-  flex-basis: 40%;
+  order: -1;
+
   width: 100%;
 }
 
@@ -328,8 +397,25 @@ main {
   object-position: 50% 50%;
 }
 
-.card:nth-child(2n) .card__image {
-  order: -1;
+@media (min-width: 550px) {
+  .card {
+    grid-template-columns: repeat(calc(var(--columns)), 1fr);
+    grid-template-rows: auto;
+    gap: var(--gutter);
+  }
+
+  .card .card__content {
+    grid-column: span 7;
+  }
+
+  .card .card__image {
+    grid-column: span 5;
+    order: initial;
+  }
+
+  .card:nth-child(2n) .card__image {
+    order: -1;
+  }
 }
 
 /** Efnissíða **/
@@ -339,6 +425,11 @@ main {
 }
 
 /** Töflur **/
+
+/* Leyfir skroll á töflu ef pláss er ekki nóg til að birta hana alla lárétt */
+.table-wrapper {
+  overflow-x: auto;
+}
 
 table {
   margin-bottom: var(--spacing);
@@ -359,16 +450,17 @@ table tbody tr:nth-child(2n + 1) {
 /** Form **/
 
 form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing);
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  grid-template-rows: auto;
+  gap: var(--gutter);
 
   width: 100%;
 }
 
 fieldset {
-  width: calc(50% - (var(--spacing) / 2));
   border: 0;
+  grid-column: span 12;
 }
 
 fieldset legend {
@@ -406,22 +498,54 @@ fieldset input[type="checkbox"] {
   width: auto;
 }
 
-.submit {
-  width: 100%;
+@media (min-width: 700px) {
+  fieldset {
+    grid-column: span 6;
+    border: 0;
+  }
+
+  .submit {
+    grid-column: span 12;
+  }
 }
 
 /** Fótur **/
 
 footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(var(--spacing) * 2);
+  display: grid;
+  justify-items: center;
+
+  padding-top: var(--spacing);
+  padding-bottom: var(--spacing);
+  width: 100%;
+
+  background-color: var(--color-accent);
+}
+
+footer > .content {
+  display: grid;
   justify-content: center;
+  gap: var(--gutter);
 
-  padding: var(--spacing);
+  width: 100%;
+}
 
-  background-color: #ff9999;
+footer .footer-section {
   text-align: center;
+}
+
+@media (min-width: 700px) {
+  footer > .content {
+    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-template-rows: auto;
+
+    width: var(--width-offset);
+    max-width: var(--max-width);
+  }
+
+  footer .content > .footer-section {
+    grid-column: span 4;
+  }
 }
 
 footer ul {
