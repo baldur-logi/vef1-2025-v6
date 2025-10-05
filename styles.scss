@@ -1,8 +1,13 @@
 @use 'styles/reset.scss';
 @use 'styles/config.scss';
-@use 'styles/old.scss';
 @use 'styles/components/footer.scss';
 @use 'styles/components/header.scss';
 @use 'styles/components/cards.scss';
 @use 'styles/base.scss';
+@use 'styles/components/main.scss';
+@use 'styles/components/forms.scss';
+@use 'styles/utils.scss';
+@use 'styles/components/nav.scss';
+@use 'styles/components/myndir.scss';
+@use 'styles/components/tables.scss';
 //@use 'styles/grid.scss';

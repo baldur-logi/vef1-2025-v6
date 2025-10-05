@@ -1,0 +1,38 @@
+/* hjálpar class sem felur sjónrænt en skjálesarar lesa */
+.sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+@media (min-width: 700px) {
+    :root {
+        --vertical-space: var(--vertical-space-large);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background-primary: #000000;
+        --color-background-secondary: #ffffff;
+        --color-accent: #660000;
+        --color-protection: rgba(255, 255, 255, 0.5);
+    }
+}
+
+/** Almennt takka útlit, getur virkað á bæði <a> og <button> **/
+.button {
+    display: inline-block;
+    padding: calc(var(--spacing) * 0.5) var(--spacing);
+    border: 0;
+    border-radius: var(--border-radius-regular);
+
+    color: var(--color-background-primary);
+    background-color: var(--color-background-secondary);
+    font-size: 1rem;
+    text-decoration: none;
+}
